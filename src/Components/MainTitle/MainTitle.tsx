@@ -8,7 +8,6 @@ const MainTitle = ({ children, ...restProps }: PropsType) => {
 
 /*---> Styles <---*/
 const Title = styled.h1`
-  /* border: 1px solid red; */
   font-size: 48px;
   line-height: 60px;
 `
