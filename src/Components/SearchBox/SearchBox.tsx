@@ -26,7 +26,6 @@ const SearchBox = ({ searchTerm, setSearchTerm, filterTerm }: PropsType) => {
 
 /*---> Styles <---*/
 const SearchBoxWrapper = styled.div`
-  /* border: 1px solid red; */
   display: flex;
   align-items: center;
 `
@@ -47,9 +46,7 @@ const Input = styled.input`
 `
 
 const CloseIcon = styled(CloseCircle)<{ searchTerm: string }>`
-  /* border: 1px solid red; */
   margin-left: -35px;
-  /* z-index: 100; */
   width: 30px;
   height: 30px;
   cursor: pointer;
