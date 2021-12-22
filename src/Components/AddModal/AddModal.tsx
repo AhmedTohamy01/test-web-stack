@@ -1,17 +1,32 @@
 import { useState } from 'react'
+import { useMutation } from '@apollo/client'
 import styled from 'styled-components'
 import MainTitle from '../MainTitle/MainTitle'
 import PrimaryButton from '../PrimaryButton/PrimaryButton'
 import SecondaryButton from '../SecondaryButton/SecondaryButton'
 import { PropsType } from './AddModal.interfaces'
+import { ADD_USER, GET_ALL_USERS } from '../../GraphQLQueries/GraphQLQueries'
 
 /*---> Components <---*/
-const AddModal = ({ setShowAddModal, limit }: PropsType) => {
+const AddModal = ({ setShowAddModal, limit, filterTerm }: PropsType) => {
   const [name, setName] = useState('')
   const [address, setAddress] = useState('')
   const [description, setDescription] = useState('')
 
+  const [addUser] = useMutation(ADD_USER, {
+    refetchQueries: [
+      { query: GET_ALL_USERS, variables: { filter: filterTerm, limit } },
+    ],
+  })
+
   const handleSave = () => {
+    addUser({
+      variables: {
+        name,
+        address,
+        description,
+      },
+    })
     setShowAddModal(false)
   }
 
@@ -21,7 +36,9 @@ const AddModal = ({ setShowAddModal, limit }: PropsType) => {
 
   return (
     <ModalWrapper>
-      <MainTitle>Add user</MainTitle>
+      <MainTitle>
+        Add user
+      </MainTitle>
       <DataWrapper>
         <MapWrapper>
           <MapBox>MAP WITH ADDRESS</MapBox>
@@ -55,7 +72,9 @@ const AddModal = ({ setShowAddModal, limit }: PropsType) => {
             >
               SAVE
             </PrimaryButton>
-            <SecondaryButton onClick={handleCancel}>CANCEL</SecondaryButton>
+            <SecondaryButton onClick={handleCancel}>
+              CANCEL
+            </SecondaryButton>
           </ButtonsWrapper>
         </UserInfoWrapper>
       </DataWrapper>
