@@ -7,6 +7,7 @@ const SearchBox = ({ searchTerm, setSearchTerm, filterTerm }: PropsType) => {
   return (
     <SearchBoxWrapper>
       <Input
+        data-cy='search-box'
         id='search-box'
         placeholder='Search ...'
         autoComplete='off'
