@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useMutation } from '@apollo/client'
 import styled from 'styled-components'
 import MainTitle from '../MainTitle/MainTitle'
 import PrimaryButton from '../PrimaryButton/PrimaryButton'
 import SecondaryButton from '../SecondaryButton/SecondaryButton'
 import { PropsType } from './EditModal.interfaces'
+import { UPDATE_USER, GET_ALL_USERS } from '../../GraphQLQueries/GraphQLQueries'
 
 /*---> Components <---*/
 const EditModal = ({
@@ -11,12 +13,27 @@ const EditModal = ({
   activeCard,
   setActiveCard,
   limit,
+  filterTerm,
 }: PropsType) => {
   const [name, setName] = useState(activeCard!.name)
   const [address, setAddress] = useState(activeCard!.address)
   const [description, setDescription] = useState(activeCard!.description)
 
+  const [updateUser] = useMutation(UPDATE_USER, {
+    refetchQueries: [
+      { query: GET_ALL_USERS, variables: { filter: filterTerm, limit } },
+    ],
+  })
+
   const handleSave = () => {
+    updateUser({
+      variables: {
+        id: activeCard!.id,
+        name,
+        address,
+        description,
+      },
+    })
     setShowEditModal(false)
     setActiveCard(null)
   }
