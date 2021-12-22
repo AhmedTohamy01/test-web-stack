@@ -12,16 +12,20 @@ const Card = ({
   handleDeleteIconClick,
 }: PropsType) => {
   return (
-    <CardWrapper>
+    <CardWrapper data-cy='card-item'>
       <HeaderWrapper>
-        <DeleteIcon onClick={handleDeleteIconClick} />
-        <EditIcon onClick={handleEditIconClick} />
+        <DeleteIcon onClick={handleDeleteIconClick} data-cy='delete-icon' />
+        <EditIcon onClick={handleEditIconClick} data-cy='edit-icon' />
       </HeaderWrapper>
       <AvatarWrapper>
-        <Avatar src={useRandomAvatar() || '/avatar2.jpg'} alt='avatar' />
+        <Avatar
+          src={useRandomAvatar() || '/avatar2.jpg'}
+          alt='avatar'
+          data-cy='card-avatar'
+        />
       </AvatarWrapper>
-      <Name>{name}</Name>
-      <Description>{description}</Description>
+      <Name data-cy='card-name'>{name}</Name>
+      <Description data-cy='card-desc'>{description}</Description>
     </CardWrapper>
   )
 }
