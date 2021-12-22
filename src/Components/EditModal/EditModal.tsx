@@ -44,32 +44,37 @@ const EditModal = ({
   }
 
   return (
-    <ModalWrapper>
-      <MainTitle>Edit user</MainTitle>
+    <ModalWrapper data-cy='edit-modal'>
+      <MainTitle>
+        <span data-cy='edit-modal-title'>Edit user</span>
+      </MainTitle>
       <DataWrapper>
-        <MapWrapper>
-          <MapBox>MAP WITH ADDRESS</MapBox>
+        <MapWrapper data-cy='edit-map-image'>
+          <MapBox data-cy='edit-map-box'>MAP WITH ADDRESS</MapBox>
         </MapWrapper>
         <UserInfoWrapper>
           <FieldWrapper>
-            <Label>Name</Label>
+            <Label data-cy='edit-name-label'>Name</Label>
             <Input
+              data-cy='edit-name-input'
               onChange={(event) => setName(event.target.value)}
               defaultValue={activeCard!.name}
               maxLength={50}
             />
           </FieldWrapper>
           <FieldWrapper>
-            <Label>Address</Label>
+            <Label data-cy='edit-address-label'>Address</Label>
             <Input
+              data-cy='edit-address-input'
               onChange={(event) => setAddress(event.target.value)}
               defaultValue={activeCard!.address}
               maxLength={50}
             />
           </FieldWrapper>
           <FieldWrapper>
-            <Label>Description</Label>
+            <Label data-cy='edit-desc-label'>Description</Label>
             <Input
+              data-cy='edit-desc-input'
               onChange={(event) => setDescription(event.target.value)}
               defaultValue={activeCard!.description}
               maxLength={50}
@@ -77,12 +82,18 @@ const EditModal = ({
           </FieldWrapper>
           <ButtonsWrapper>
             <PrimaryButton
+              data-cy='edit-save-button'
               onClick={handleSave}
               disabled={name === '' || address === '' || description === ''}
             >
               SAVE
             </PrimaryButton>
-            <SecondaryButton onClick={handleCancel}>CANCEL</SecondaryButton>
+            <SecondaryButton
+              data-cy='edit-cancel-button'
+              onClick={handleCancel}
+            >
+              CANCEL
+            </SecondaryButton>
           </ButtonsWrapper>
         </UserInfoWrapper>
       </DataWrapper>
