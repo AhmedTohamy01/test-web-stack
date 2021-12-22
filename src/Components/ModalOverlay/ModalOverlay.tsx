@@ -1,9 +1,9 @@
-import { ReactNode } from 'react'
 import styled from 'styled-components'
+import { PropsType } from './ModalOverlay.interfaces'
 
 /*---> Component <---*/
 const ModalOverlay = ({ children }: PropsType) => {
-  return <Wrapper>{children}</Wrapper>
+  return <Wrapper data-cy='modal-overylay'>{children}</Wrapper>
 }
 
 /*---> Styles <---*/
@@ -18,11 +18,5 @@ export const Wrapper = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.3);
 `
-
-/*---> Interfaces <---*/
-interface PropsType {
-  children: ReactNode
-  onClick?: () => void
-}
 
 export default ModalOverlay
