@@ -111,6 +111,15 @@ const MainPage = () => {
               </span>
             </NoDataWrapper>
           </CardsWrapper>
+          {showAddModal ? (
+            <ModalOverlay>
+              <AddModal
+                setShowAddModal={setShowAddModal}
+                limit={limit}
+                filterTerm={filterTerm}
+              />
+            </ModalOverlay>
+          ) : null}
         </ContentWrapper>
       </PageWrapper>
     )
