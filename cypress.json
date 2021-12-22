@@ -1,1 +1,7 @@
-{}
+{
+  "ignoreTestFiles": ["**/2-advanced-examples/*", "**/1-getting-started/*"],
+  "baseUrl": "http://localhost:3000/",
+  "viewPortWidth": 1920,
+  "viewPortHeight": 1080,
+  "defaultCommandTimeout": 20000
+}
