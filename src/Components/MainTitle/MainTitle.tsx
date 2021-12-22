@@ -2,8 +2,8 @@ import styled from 'styled-components'
 import { PropsType } from './MailTitle.interfaces'
 
 /*---> Components <---*/
-const MainTitle = ({ children, ...restProps }: PropsType) => {
-  return <Title {...restProps}>{children}</Title>
+const MainTitle = ({ children }: PropsType) => {
+  return <Title>{children}</Title>
 }
 
 /*---> Styles <---*/
