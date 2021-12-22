@@ -32,15 +32,15 @@ const DeleteModal = ({
   }
 
   return (
-    <ModalWrapper>
+    <ModalWrapper data-cy='delete-modal'>
       <MainTitle>
-        This will delete the user !
+        <span data-cy='delete-modal-title'>This will delete the user !</span>
       </MainTitle>
       <ButtonsWrapper>
-        <PrimaryButton onClick={handleDelete}>
+        <PrimaryButton onClick={handleDelete} data-cy='delete-save-button'>
           YES, DELETE
         </PrimaryButton>
-        <SecondaryButton onClick={handleCancel}>
+        <SecondaryButton onClick={handleCancel} data-cy='delete-cancel-button'>
           CANCEL
         </SecondaryButton>
       </ButtonsWrapper>
