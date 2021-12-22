@@ -1,8 +1,10 @@
 import styled from 'styled-components'
+import { useMutation } from '@apollo/client'
 import MainTitle from '../MainTitle/MainTitle'
 import PrimaryButton from '../PrimaryButton/PrimaryButton'
 import SecondaryButton from '../SecondaryButton/SecondaryButton'
 import { PropsType } from './DeleteModal.interfaces'
+import { GET_ALL_USERS, DELETE_USER } from '../../GraphQLQueries/GraphQLQueries'
 
 /*---> Components <---*/
 const DeleteModal = ({
@@ -10,9 +12,16 @@ const DeleteModal = ({
   activeCard,
   setActiveCard,
   limit,
+  filterTerm,
 }: PropsType) => {
+  const [deleteUser] = useMutation(DELETE_USER, {
+    refetchQueries: [
+      { query: GET_ALL_USERS, variables: { filter: filterTerm, limit } },
+    ],
+  })
 
   const handleDelete = () => {
+    deleteUser({ variables: { id: activeCard!.id } })
     setShowDeleteModal(false)
     setActiveCard(null)
   }
@@ -24,10 +33,16 @@ const DeleteModal = ({
 
   return (
     <ModalWrapper>
-      <MainTitle>This will delete the user !</MainTitle>
+      <MainTitle>
+        This will delete the user !
+      </MainTitle>
       <ButtonsWrapper>
-        <PrimaryButton onClick={handleDelete}>YES, DELETE</PrimaryButton>
-        <SecondaryButton onClick={handleCancel}>CANCEL</SecondaryButton>
+        <PrimaryButton onClick={handleDelete}>
+          YES, DELETE
+        </PrimaryButton>
+        <SecondaryButton onClick={handleCancel}>
+          CANCEL
+        </SecondaryButton>
       </ButtonsWrapper>
     </ModalWrapper>
   )

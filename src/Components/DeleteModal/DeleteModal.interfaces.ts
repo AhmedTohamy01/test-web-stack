@@ -6,4 +6,5 @@ export interface PropsType {
   activeCard: CardType | null
   setActiveCard: React.Dispatch<SetStateAction<CardType | null>>
   limit: number
+  filterTerm: string
 }
