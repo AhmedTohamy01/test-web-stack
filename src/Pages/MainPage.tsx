@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import { useLocation, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { AddCircle } from '@styled-icons/ionicons-outline'
+import Loader from 'react-loader-spinner'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+import { useQuery } from '@apollo/client'
 import MainTitle from '../Components/MainTitle/MainTitle'
 import SearchBox from '../Components/SearchBox/SearchBox'
 import Card from '../Components/Card/Card'
@@ -11,7 +14,7 @@ import EditModal from '../Components/EditModal/EditModal'
 import DeleteModal from '../Components/DeleteModal/DeleteModal'
 import AddModal from '../Components/AddModal/AddModal'
 import { CardType } from '../utils/Shared.interfaces'
-import { data } from '../data/data'
+import { GET_ALL_USERS } from '../GraphQLQueries/GraphQLQueries'
 
 /*---> Components <---*/
 const MainPage = () => {
@@ -25,6 +28,9 @@ const MainPage = () => {
   const urlNum = search.pathname.split('=')[1]
   const [limit, setLimit] = useState(parseInt(urlNum))
   const history = useHistory()
+  const { loading, error, data } = useQuery(GET_ALL_USERS, {
+    variables: { filter: filterTerm, limit: limit },
+  })
 
   const handleEditIconClick = (item: CardType) => {
     setActiveCard(item)
@@ -58,12 +64,64 @@ const MainPage = () => {
     }, 400)
   }, [filterTerm])
 
+  if (loading)
+    return (
+      <SpinnerWrapper>
+        <Loader type='ThreeDots' color='#3f51b5' height={200} width={200} />
+      </SpinnerWrapper>
+    )
+
+  if (error)
+    return (
+      <SpinnerWrapper>
+        <SorryImage src='/sorry.png' alt='shy girl' />I don't know how to say
+        this to you ... <br />
+        But, we couldn't contact the server to get data, please try again later
+        !
+      </SpinnerWrapper>
+    )
+
+  if (data.users.length === 0)
+    return (
+      <PageWrapper>
+        <ContentWrapper>
+          <HeaderWrapper>
+            <MainTitle>
+              <span data-cy='main-title'>Users list</span>{' '}
+              <AddIcon
+                onClick={() => setShowAddModal(true)}
+                data-cy='add-icon'
+              />
+            </MainTitle>
+            <SearchBox
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              filterTerm={filterTerm}
+            />
+          </HeaderWrapper>
+          <CardsWrapper>
+            <NoDataWrapper>
+              <SorryImage
+                src='/sorry.png'
+                alt='shy girl'
+                data-cy='no-data-image'
+              />{' '}
+              <span data-cy='no-data-title'>
+                Sorry, We did not find any data !
+              </span>
+            </NoDataWrapper>
+          </CardsWrapper>
+        </ContentWrapper>
+      </PageWrapper>
+    )
+
   return (
     <PageWrapper>
       <ContentWrapper>
         <HeaderWrapper>
           <MainTitle>
-            Users list <AddIcon onClick={() => setShowAddModal(true)} />
+            <span data-cy='main-title'>Users list</span>{' '}
+            <AddIcon onClick={() => setShowAddModal(true)} data-cy='add-icon' />
           </MainTitle>
           <SearchBox
             searchTerm={searchTerm}
@@ -83,11 +141,17 @@ const MainPage = () => {
           ))}
         </CardsWrapper>
         {limit > data.users.length ? null : (
-          <PrimaryButton onClick={handleLoadMore}>LOAD MORE</PrimaryButton>
+          <PrimaryButton onClick={handleLoadMore} data-cy='loadmore-button'>
+            LOAD MORE
+          </PrimaryButton>
         )}
         {showAddModal ? (
           <ModalOverlay>
-            <AddModal setShowAddModal={setShowAddModal} limit={limit} />
+            <AddModal
+              setShowAddModal={setShowAddModal}
+              limit={limit}
+              filterTerm={filterTerm}
+            />
           </ModalOverlay>
         ) : null}
         {showEditModal ? (
@@ -97,6 +161,7 @@ const MainPage = () => {
               activeCard={activeCard}
               setActiveCard={setActiveCard}
               limit={limit}
+              filterTerm={filterTerm}
             />
           </ModalOverlay>
         ) : null}
@@ -107,6 +172,7 @@ const MainPage = () => {
               activeCard={activeCard}
               setActiveCard={setActiveCard}
               limit={limit}
+              filterTerm={filterTerm}
             />
           </ModalOverlay>
         ) : null}
@@ -138,6 +204,25 @@ const CardsWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+`
+
+const SpinnerWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 37px;
+`
+
+const NoDataWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 37px;
+`
+
+const SorryImage = styled.img`
+  width: 240px;
 `
 
 const AddIcon = styled(AddCircle)`
