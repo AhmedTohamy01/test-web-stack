@@ -35,44 +35,48 @@ const AddModal = ({ setShowAddModal, limit, filterTerm }: PropsType) => {
   }
 
   return (
-    <ModalWrapper>
+    <ModalWrapper data-cy='add-modal'>
       <MainTitle>
-        Add user
+        <span data-cy='add-modal-title'>Add user</span>
       </MainTitle>
       <DataWrapper>
-        <MapWrapper>
-          <MapBox>MAP WITH ADDRESS</MapBox>
+        <MapWrapper data-cy='add-map-image'>
+          <MapBox data-cy='add-map-box'>MAP WITH ADDRESS</MapBox>
         </MapWrapper>
         <UserInfoWrapper>
           <FieldWrapper>
-            <Label>Name</Label>
+            <Label data-cy='add-name-label'>Name</Label>
             <Input
+              data-cy='add-name-input'
               onChange={(event) => setName(event.target.value)}
               maxLength={50}
             />
           </FieldWrapper>
           <FieldWrapper>
-            <Label>Address</Label>
+            <Label data-cy='add-address-label'>Address</Label>
             <Input
+              data-cy='add-address-input'
               onChange={(event) => setAddress(event.target.value)}
               maxLength={50}
             />
           </FieldWrapper>
           <FieldWrapper>
-            <Label>Description</Label>
+            <Label data-cy='add-desc-label'>Description</Label>
             <Input
+              data-cy='add-desc-input'
               onChange={(event) => setDescription(event.target.value)}
               maxLength={50}
             />
           </FieldWrapper>
           <ButtonsWrapper>
             <PrimaryButton
+              data-cy='add-save-button'
               onClick={handleSave}
               disabled={name === '' || address === '' || description === ''}
             >
               SAVE
             </PrimaryButton>
-            <SecondaryButton onClick={handleCancel}>
+            <SecondaryButton data-cy='add-cancel-button' onClick={handleCancel}>
               CANCEL
             </SecondaryButton>
           </ButtonsWrapper>
