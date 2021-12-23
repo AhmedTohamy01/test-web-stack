@@ -19,6 +19,7 @@ const SearchBox = ({ searchTerm, setSearchTerm, filterTerm }: PropsType) => {
         searchTerm={searchTerm}
         onClick={() => {
           setSearchTerm('')
+          window.location.reload()
         }}
       />
     </SearchBoxWrapper>
